@@ -1,9 +1,18 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { User, Settings, CreditCard, Shield, Bell, CircleHelp as HelpCircle, LogOut, ArrowRight, Star, Award } from 'lucide-react-native';
+import { User, Settings, CreditCard, Shield, Bell, CircleHelp as HelpCircle, LogOut, ArrowRight, Star, Award, Globe, Smartphone } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ProfileTab() {
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = async (language: string) => {
+    await AsyncStorage.setItem('user-language', language);
+    i18n.changeLanguage(language);
+  };
+
   const userStats = {
     totalContributions: 63000,
     activeStokvels: 3,
@@ -20,31 +29,37 @@ export default function ProfileTab() {
       color: '#6B7280',
     },
     {
-      icon: CreditCard,
-      title: 'Payment Methods',
-      subtitle: 'Manage MoMo and bank accounts',
+      icon: Smartphone,
+      title: 'MoMo Integration',
+      subtitle: 'Manage your MTN Mobile Money account',
       color: '#3B82F6',
     },
     {
       icon: Shield,
-      title: 'Security',
-      subtitle: 'Password, PIN, and verification',
+      title: 'Security & Privacy',
+      subtitle: 'PIN, biometrics, and data protection',
       color: '#16A34A',
     },
     {
-      icon: Bell,
-      title: 'Notifications',
-      subtitle: 'Push notifications and alerts',
+      icon: Globe,
+      title: 'Language / Ulimi / Iilwimi',
+      subtitle: 'Choose your preferred language',
       color: '#F59E0B',
     },
     {
       icon: HelpCircle,
       title: 'Help & Support',
-      subtitle: 'FAQs, contact support',
+      subtitle: 'Get help and contact support',
       color: '#8B5CF6',
     },
   ];
 
+  const languages = [
+    { code: 'en', name: 'English', nativeName: 'English' },
+    { code: 'zu', name: 'Zulu', nativeName: 'isiZulu' },
+    { code: 'xh', name: 'Xhosa', nativeName: 'isiXhosa' },
+    { code: 'af', name: 'Afrikaans', nativeName: 'Afrikaans' }
+  ];
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -123,6 +138,33 @@ export default function ProfileTab() {
               </TouchableOpacity>
             );
           })}
+        </View>
+
+        {/* Language Selection */}
+        <View style={styles.languageSection}>
+          <Text style={styles.sectionTitle}>Select Language</Text>
+          {languages.map((language) => (
+            <TouchableOpacity
+              key={language.code}
+              style={[
+                styles.languageItem,
+                i18n.language === language.code && styles.languageItemActive
+              ]}
+              onPress={() => changeLanguage(language.code)}
+            >
+              <Text style={[
+                styles.languageText,
+                i18n.language === language.code && styles.languageTextActive
+              ]}>
+                {language.nativeName}
+              </Text>
+              {i18n.language === language.code && (
+                <View style={styles.languageCheck}>
+                  <Text style={styles.checkMark}>✓</Text>
+                </View>
+              )}
+            </TouchableOpacity>
+          ))}
         </View>
 
         {/* Logout */}
@@ -332,5 +374,49 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     color: '#EF4444',
+  },
+  languageSection: {
+    padding: 20,
+    paddingTop: 0,
+  },
+  languageItem: {
+    backgroundColor: '#FFFFFF',
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    elevation: 1,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+  },
+  languageItemActive: {
+    backgroundColor: '#F0FDF4',
+    borderWidth: 1,
+    borderColor: '#16A34A',
+  },
+  languageText: {
+    fontSize: 16,
+    color: '#1F2937',
+  },
+  languageTextActive: {
+    color: '#16A34A',
+    fontWeight: '600',
+  },
+  languageCheck: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#16A34A',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  checkMark: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: '700',
   },
 });

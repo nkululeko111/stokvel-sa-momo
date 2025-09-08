@@ -1,10 +1,19 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { LinearGradient } from 'expo-linear-gradient';
-import { TrendingUp, Users, Calendar, CircleAlert as AlertCircle, Plus, Vote } from 'lucide-react-native';
+import { TrendingUp, Users, Plus, GraduationCap, CreditCard, BarChart3, Smartphone } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 
 export default function DashboardTab() {
+  const { t } = useTranslation();
+
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return t('goodMorning');
+    if (hour < 17) return t('goodAfternoon');
+    return t('goodEvening');
+  };
+
   const userStokvels = [
     {
       id: 1,
@@ -45,63 +54,60 @@ export default function DashboardTab() {
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.greeting}>Good morning, Thabo!</Text>
-          <Text style={styles.subtitle}>Your stokvel portfolio</Text>
+          <Text style={styles.greeting}>{getGreeting()}, Thabo!</Text>
+          <Text style={styles.subtitle}>Your financial journey</Text>
         </View>
 
-        {/* Balance Card */}
-        <LinearGradient
-          colors={['#16A34A', '#15803D']}
-          style={styles.balanceCard}
-        >
-          <Text style={styles.balanceLabel}>Total Contributions</Text>
+        {/* Balance Card - Simplified */}
+        <View style={styles.balanceCard}>
+          <Text style={styles.balanceLabel}>{t('totalContributions')}</Text>
           <Text style={styles.balanceAmount}>R{totalBalance.toLocaleString()}</Text>
           <View style={styles.balanceStats}>
             <View style={styles.statItem}>
               <Text style={styles.statValue}>3</Text>
-              <Text style={styles.statLabel}>Active Stokvels</Text>
+              <Text style={styles.statLabel}>{t('activeStokvels')}</Text>
             </View>
             <View style={styles.statItem}>
               <Text style={styles.statValue}>24</Text>
-              <Text style={styles.statLabel}>Total Members</Text>
+              <Text style={styles.statLabel}>{t('totalMembers')}</Text>
             </View>
           </View>
-        </LinearGradient>
+        </View>
 
         {/* Quick Actions */}
         <View style={styles.quickActions}>
-          <Text style={styles.sectionTitle}>Quick Actions</Text>
+          <Text style={styles.sectionTitle}>{t('quickActions')}</Text>
           <View style={styles.actionGrid}>
             <TouchableOpacity style={styles.actionButton}>
-              <View style={[styles.actionIcon, { backgroundColor: '#F59E0B' }]}>
+              <View style={[styles.actionIcon, { backgroundColor: '#16A34A' }]}>
                 <Plus size={24} color="#FFFFFF" />
               </View>
-              <Text style={styles.actionText}>Create Stokvel</Text>
+              <Text style={styles.actionText}>{t('createStokvel')}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.actionButton}>
               <View style={[styles.actionIcon, { backgroundColor: '#3B82F6' }]}>
-                <Users size={24} color="#FFFFFF" />
+                <Smartphone size={24} color="#FFFFFF" />
               </View>
-              <Text style={styles.actionText}>Join Stokvel</Text>
+              <Text style={styles.actionText}>{t('makePayment')}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.actionButton}>
+              <View style={[styles.actionIcon, { backgroundColor: '#F59E0B' }]}>
+                <GraduationCap size={24} color="#FFFFFF" />
+              </View>
+              <Text style={styles.actionText}>{t('learnMore')}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.actionButton}>
               <View style={[styles.actionIcon, { backgroundColor: '#8B5CF6' }]}>
-                <Vote size={24} color="#FFFFFF" />
+                <BarChart3 size={24} color="#FFFFFF" />
               </View>
-              <Text style={styles.actionText}>Vote Now</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.actionButton}>
-              <View style={[styles.actionIcon, { backgroundColor: '#EF4444' }]}>
-                <TrendingUp size={24} color="#FFFFFF" />
-              </View>
-              <Text style={styles.actionText}>View Reports</Text>
+              <Text style={styles.actionText}>{t('viewReports')}</Text>
             </TouchableOpacity>
           </View>
         </View>
 
         {/* Recent Activity */}
         <View style={styles.recentActivity}>
-          <Text style={styles.sectionTitle}>Recent Activity</Text>
+          <Text style={styles.sectionTitle}>{t('recentActivity')}</Text>
           <View style={styles.activityItem}>
             <View style={[styles.activityIcon, { backgroundColor: '#DCFCE7' }]}>
               <TrendingUp size={16} color="#16A34A" />
@@ -113,17 +119,17 @@ export default function DashboardTab() {
             </View>
           </View>
           <View style={styles.activityItem}>
-            <View style={[styles.activityIcon, { backgroundColor: '#FEF3C7' }]}>
-              <Vote size={16} color="#F59E0B" />
+            <View style={[styles.activityIcon, { backgroundColor: '#DBEAFE' }]}>
+              <CreditCard size={16} color="#3B82F6" />
             </View>
             <View style={styles.activityContent}>
-              <Text style={styles.activityTitle}>New Vote Created</Text>
-              <Text style={styles.activitySubtitle}>Property Investment Club • Investment Decision</Text>
+              <Text style={styles.activityTitle}>MoMo Payment Successful</Text>
+              <Text style={styles.activitySubtitle}>Grocery Rotation • R3,000</Text>
               <Text style={styles.activityTime}>1 day ago</Text>
             </View>
           </View>
           <View style={styles.activityItem}>
-            <View style={[styles.activityIcon, { backgroundColor: '#DBEAFE' }]}>
+            <View style={[styles.activityIcon, { backgroundColor: '#FEF3C7' }]}>
               <Users size={16} color="#3B82F6" />
             </View>
             <View style={styles.activityContent}>
@@ -136,20 +142,20 @@ export default function DashboardTab() {
 
         {/* Upcoming Payments */}
         <View style={styles.upcomingPayments}>
-          <Text style={styles.sectionTitle}>Upcoming Payments</Text>
+          <Text style={styles.sectionTitle}>{t('upcomingPayments')}</Text>
           <TouchableOpacity style={styles.paymentCard}>
             <View style={styles.paymentLeft}>
-              <View style={[styles.paymentIcon, { backgroundColor: '#FEF3C7' }]}>
-                <AlertCircle size={20} color="#F59E0B" />
+              <View style={[styles.paymentIcon, { backgroundColor: '#DCFCE7' }]}>
+                <Smartphone size={20} color="#16A34A" />
               </View>
               <View>
                 <Text style={styles.paymentTitle}>Family Christmas Fund</Text>
-                <Text style={styles.paymentSubtitle}>Monthly contribution due</Text>
+                <Text style={styles.paymentSubtitle}>Auto-debit via MoMo</Text>
               </View>
             </View>
             <View style={styles.paymentRight}>
               <Text style={styles.paymentAmount}>R2,500</Text>
-              <Text style={styles.paymentDate}>Due: Jan 31</Text>
+              <Text style={styles.paymentDate}>Jan 31</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -182,11 +188,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
     padding: 24,
     borderRadius: 16,
-    elevation: 4,
+    backgroundColor: '#16A34A',
+    elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
   },
   balanceLabel: {
     fontSize: 16,
@@ -346,7 +353,7 @@ const styles = StyleSheet.create({
   },
   paymentDate: {
     fontSize: 12,
-    color: '#EF4444',
+    color: '#16A34A',
     marginTop: 2,
   },
 });

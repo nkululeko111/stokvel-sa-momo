@@ -1,7 +1,10 @@
 import { Tabs } from 'expo-router';
-import { Chrome as Home, Users, Plus, Vote, User } from 'lucide-react-native';
+import { Home, Users, Plus, GraduationCap, User } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 
 export default function TabLayout() {
+  const { t } = useTranslation();
+
   return (
     <Tabs
       screenOptions={{
@@ -25,7 +28,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Dashboard',
+          title: t('dashboard'),
           tabBarIcon: ({ size, color }) => (
             <Home size={size} color={color} />
           ),
@@ -34,7 +37,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="stokvels"
         options={{
-          title: 'My Stokvels',
+          title: t('stokvels'),
           tabBarIcon: ({ size, color }) => (
             <Users size={size} color={color} />
           ),
@@ -43,25 +46,25 @@ export default function TabLayout() {
       <Tabs.Screen
         name="create"
         options={{
-          title: 'Create',
+          title: t('create'),
           tabBarIcon: ({ size, color }) => (
             <Plus size={size} color={color} />
           ),
         }}
       />
       <Tabs.Screen
-        name="voting"
+        name="education"
         options={{
-          title: 'Voting',
+          title: t('education'),
           tabBarIcon: ({ size, color }) => (
-            <Vote size={size} color={color} />
+            <GraduationCap size={size} color={color} />
           ),
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
-          title: 'Profile',
+          title: t('profile'),
           tabBarIcon: ({ size, color }) => (
             <User size={size} color={color} />
           ),

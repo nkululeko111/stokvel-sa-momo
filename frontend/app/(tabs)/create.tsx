@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Users, Calendar, DollarSign, Target, ArrowRight } from 'lucide-react-native';
+import { Users, Target, TrendingUp, ArrowRight, Smartphone, Shield } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 
 export default function CreateTab() {
+  const { t } = useTranslation();
   const [stokvelType, setStokvelType] = useState('');
   const [stokvelName, setStokvelName] = useState('');
   const [contributionAmount, setContributionAmount] = useState('');
@@ -13,24 +15,27 @@ export default function CreateTab() {
   const stokvelTypes = [
     {
       id: 'savings',
-      name: 'Savings Stokvel',
-      description: 'Pool funds together for bulk purchases or year-end payouts',
+      name: t('savingsStokvel'),
+      description: 'Pool funds for bulk purchases, Christmas, or emergencies',
       icon: Target,
       color: '#16A34A',
+      benefits: ['Bulk buying power', 'Disciplined saving', 'Year-end payout']
     },
     {
       id: 'rotational',
-      name: 'Rotational Stokvel',
-      description: 'Members take turns receiving the full contribution pot',
+      name: t('rotationalStokvel'),
+      description: 'Members take turns receiving the monthly pool',
       icon: Users,
       color: '#3B82F6',
+      benefits: ['Regular access to lump sum', 'No interest charges', 'Community support']
     },
     {
       id: 'investment',
-      name: 'Investment Stokvel',
-      description: 'Invest pooled funds in property, shares, or business ventures',
+      name: t('investmentStokvel'),
+      description: 'Invest pooled funds for long-term wealth building',
       icon: TrendingUp,
       color: '#8B5CF6',
+      benefits: ['Wealth building', 'Professional management', 'Higher returns']
     },
   ];
 
@@ -58,13 +63,25 @@ export default function CreateTab() {
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
-          <Text style={styles.title}>Create New Stokvel</Text>
-          <Text style={styles.subtitle}>Build your community savings group</Text>
+          <Text style={styles.title}>{t('createStokvel')}</Text>
+          <Text style={styles.subtitle}>Start your financial journey with friends</Text>
+        </View>
+
+        {/* MoMo Integration Notice */}
+        <View style={styles.momoNotice}>
+          <Smartphone size={20} color="#3B82F6" />
+          <View style={styles.momoNoticeText}>
+            <Text style={styles.momoTitle}>Powered by MTN MoMo</Text>
+            <Text style={styles.momoDescription}>
+              Secure, automated payments with your mobile money wallet
+            </Text>
+          </View>
+          <Shield size={20} color="#16A34A" />
         </View>
 
         {/* Stokvel Type Selection */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Choose Stokvel Type</Text>
+          <Text style={styles.sectionTitle}>Choose Your Stokvel Type</Text>
           {stokvelTypes.map((type) => {
             const IconComponent = type.icon;
             return (
@@ -83,6 +100,11 @@ export default function CreateTab() {
                   <View style={styles.typeInfo}>
                     <Text style={styles.typeName}>{type.name}</Text>
                     <Text style={styles.typeDescription}>{type.description}</Text>
+                    <View style={styles.benefitsList}>
+                      {type.benefits.map((benefit, index) => (
+                        <Text key={index} style={styles.benefitItem}>• {benefit}</Text>
+                      ))}
+                    </View>
                   </View>
                 </View>
                 <ArrowRight size={20} color="#9CA3AF" />
@@ -95,7 +117,7 @@ export default function CreateTab() {
         {stokvelType && (
           <>
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Stokvel Details</Text>
+              <Text style={styles.sectionTitle}>Setup Details</Text>
               
               <View style={styles.inputGroup}>
                 <Text style={styles.inputLabel}>Stokvel Name</Text>
@@ -110,12 +132,12 @@ export default function CreateTab() {
 
               <View style={styles.inputRow}>
                 <View style={styles.inputGroupHalf}>
-                  <Text style={styles.inputLabel}>Monthly Contribution</Text>
+                  <Text style={styles.inputLabel}>Monthly Amount (ZAR)</Text>
                   <TextInput
                     style={styles.input}
                     value={contributionAmount}
                     onChangeText={setContributionAmount}
-                    placeholder="R2,500"
+                    placeholder="2500"
                     keyboardType="numeric"
                     placeholderTextColor="#9CA3AF"
                   />
@@ -148,33 +170,39 @@ export default function CreateTab() {
 
             {/* Summary */}
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Summary</Text>
+              <Text style={styles.sectionTitle}>Financial Summary</Text>
               <View style={styles.summaryCard}>
                 <View style={styles.summaryRow}>
-                  <Text style={styles.summaryLabel}>Total Pool Value</Text>
+                  <Text style={styles.summaryLabel}>Total Pool (All Members)</Text>
                   <Text style={styles.summaryValue}>
                     R{(parseInt(contributionAmount || '0') * parseInt(maxMembers || '0') * parseInt(duration || '0')).toLocaleString()}
                   </Text>
                 </View>
                 <View style={styles.summaryRow}>
-                  <Text style={styles.summaryLabel}>Monthly Pool</Text>
+                  <Text style={styles.summaryLabel}>Monthly Collection</Text>
                   <Text style={styles.summaryValue}>
                     R{(parseInt(contributionAmount || '0') * parseInt(maxMembers || '0')).toLocaleString()}
                   </Text>
                 </View>
                 <View style={styles.summaryRow}>
-                  <Text style={styles.summaryLabel}>Your Total Contribution</Text>
+                  <Text style={styles.summaryLabel}>Your Total Investment</Text>
                   <Text style={styles.summaryValue}>
                     R{(parseInt(contributionAmount || '0') * parseInt(duration || '0')).toLocaleString()}
                   </Text>
                 </View>
+              </View>
+              
+              <View style={styles.autoPayNotice}>
+                <Text style={styles.autoPayText}>
+                  💡 Automatic MoMo debit orders will be set up for hassle-free payments
+                </Text>
               </View>
             </View>
 
             {/* Create Button */}
             <View style={styles.section}>
               <TouchableOpacity style={styles.createButton} onPress={handleCreateStokvel}>
-                <Text style={styles.createButtonText}>Create Stokvel</Text>
+                <Text style={styles.createButtonText}>Create & Invite Members</Text>
               </TouchableOpacity>
             </View>
           </>
@@ -202,6 +230,31 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 16,
     color: '#6B7280',
+  },
+  momoNotice: {
+    backgroundColor: '#EFF6FF',
+    margin: 20,
+    marginTop: 10,
+    padding: 16,
+    borderRadius: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#DBEAFE',
+  },
+  momoNoticeText: {
+    flex: 1,
+    marginHorizontal: 12,
+  },
+  momoTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#1E40AF',
+    marginBottom: 2,
+  },
+  momoDescription: {
+    fontSize: 12,
+    color: '#3B82F6',
   },
   section: {
     padding: 20,
@@ -254,7 +307,15 @@ const styles = StyleSheet.create({
   typeDescription: {
     fontSize: 14,
     color: '#6B7280',
-    lineHeight: 20,
+    marginBottom: 8,
+  },
+  benefitsList: {
+    marginTop: 4,
+  },
+  benefitItem: {
+    fontSize: 12,
+    color: '#16A34A',
+    marginBottom: 2,
   },
   inputGroup: {
     marginBottom: 16,
@@ -305,6 +366,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     color: '#1F2937',
+  },
+  autoPayNotice: {
+    marginTop: 16,
+    padding: 12,
+    backgroundColor: '#F0FDF4',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#BBF7D0',
+  },
+  autoPayText: {
+    fontSize: 12,
+    color: '#15803D',
+    textAlign: 'center',
   },
   createButton: {
     backgroundColor: '#16A34A',
