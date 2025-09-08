@@ -224,7 +224,7 @@ const initI18n = async () => {
   
   if (!savedLanguage) {
     // Get device locale and map to supported languages
-    const deviceLocale = Localization.locale;
+    const deviceLocale = Localization.getLocales()[0].languageTag;
     if (deviceLocale.startsWith('zu')) savedLanguage = 'zu';
     else if (deviceLocale.startsWith('xh')) savedLanguage = 'xh';
     else if (deviceLocale.startsWith('af')) savedLanguage = 'af';

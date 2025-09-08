@@ -54,7 +54,7 @@ class MoMoService {
 
       const requestBody = {
         amount: amount.toString(),
-        currency: currency || 'EUR', // Use appropriate currency
+        currency: currency || 'EUR', 
         externalId: externalId,
         payer: {
           partyIdType: 'MSISDN',

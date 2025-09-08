@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Vote, Clock, CircleCheck as CheckCircle, Circle as XCircle, Users } from 'lucide-react-native';
+import { Vote, Clock, CircleCheck as CheckCircle, Circle as XCircle, Users, Calendar } from 'lucide-react-native';
 
 export default function VotingTab() {
   const [selectedTab, setSelectedTab] = useState('active');

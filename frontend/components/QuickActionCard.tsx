@@ -4,7 +4,7 @@ import { Video as LucideIcon } from 'lucide-react-native';
 
 interface QuickActionCardProps {
   title: string;
-  icon: LucideIcon;
+  icon: typeof LucideIcon;
   color: string;
   onPress?: () => void;
 }

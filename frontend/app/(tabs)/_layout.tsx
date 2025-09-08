@@ -1,5 +1,6 @@
 import { Tabs } from 'expo-router';
 import { Home, Users, Plus, GraduationCap, User } from 'lucide-react-native';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 export default function TabLayout() {

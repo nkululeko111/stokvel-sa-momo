@@ -9,7 +9,16 @@ const screenWidth = Dimensions.get('window').width;
 
 export default function EducationTab() {
   const { t } = useTranslation();
-  const [selectedModule, setSelectedModule] = useState(null);
+  const [selectedModule, setSelectedModule] = useState<{
+    id: number;
+    title: string;
+    description: string;
+    icon: React.ComponentType<any>;
+    color: string;
+    duration: string;
+    lessons: number;
+    completed: boolean;
+  } | null>(null);
   const [userProgress, setUserProgress] = useState({
     completedModules: [1],
     currentModule: 2,

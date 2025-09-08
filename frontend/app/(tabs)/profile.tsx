@@ -419,4 +419,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '700',
   },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#1F2937',
+    marginBottom: 12,
+  },
 });
